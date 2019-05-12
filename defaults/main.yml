@@ -1,0 +1,49 @@
+---
+#      _                          _    __      _       __     __  _       __             _ _       
+#   __| | _____   _____  ___ ___ | |_ / /_ __ | | ____ \ \   / /_| | ___ / _| __ _ _   _| | |_ ___ 
+#  / _` |/ _ \ \ / / _ \/ __/ _ \| __| || '_ \| |/ / _` | | / / _` |/ _ \ |_ / _` | | | | | __/ __|
+# | (_| | (_) \ V /  __/ (_| (_) | |_| || |_) |   < (_| | |/ / (_| |  __/  _| (_| | |_| | | |_\__ \
+#  \__,_|\___/ \_/ \___|\___\___/ \__| || .__/|_|\_\__, | /_/ \__,_|\___|_|  \__,_|\__,_|_|\__|___/
+#                                     \_\_|        |___/_/                                         
+# defaults file for ar-dovecot-pkg
+dovecot:
+  started: true
+  enabled: true
+  initscript: "dovecot"
+  configroot: "/etc/dovecot"
+  loggingfor: "/var/log"
+  tlscertdir: "/etc/letsencrypt/live"
+  backendfor:
+    mysql: false
+    pgsql: false
+  mailconfig:
+    hostname: "mail.example.jp"
+  user:
+    mailbox:
+      # Values should be same as the following roles
+      # - sendmail.user.mda
+      # - opensmtpd.user.mailbox
+      username: "virtmail"
+      group: "virtmail"
+      uid: "660"
+      gid: "660"
+      home: "/home/virtmail"
+      shell: "/bin/sh"
+      comment: "'Virtual Mailbox'"
+  backend:
+    enabled: false
+    engine:  "MySQL"
+    host: "localhost"
+    port: 3306
+    login:
+      username: "root"
+      password: null
+    # mysql> SHOW CREATE DATABASE `dbname`;
+    database: "email"
+    encoding: "utf8"
+    userlist: "users"
+    # mysql> SHOW GRANTS FOR `username`@`hostname`
+    username: "postmaster"
+    password: null
+    grants:   "email.*:ALL,GRANT"
+

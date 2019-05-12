@@ -1,0 +1,29 @@
+---
+#      _                          _    __      _       __     ___            _        
+#   __| | _____   _____  ___ ___ | |_ / /_ __ | | ____ \ \   / / |_ __ _ ___| | _____ 
+#  / _` |/ _ \ \ / / _ \/ __/ _ \| __| || '_ \| |/ / _` | | / /| __/ _` / __| |/ / __|
+# | (_| | (_) \ V /  __/ (_| (_) | |_| || |_) |   < (_| | |/ / | || (_| \__ \   <\__ \
+#  \__,_|\___/ \_/ \___|\___\___/ \__| || .__/|_|\_\__, | /_/   \__\__,_|___/_|\_\___/
+#                                     \_\_|        |___/_/                            
+# setup-table
+- block:
+    - name: setup-table | MySQL | Databases should be created
+      mysql_db:
+        login_user:     "{{ dovecot.backend.login.username }}"
+        login_password: "{{ dovecot.backend.login.password }}"
+        login_host:     "localhost"
+        name:           "{{ dovecot.backend.database }}"
+        encoding:       "{{ dovecot.backend.encoding }}"
+        state:          "present"
+
+    - name: setup-table | MySQL | Roles should be created
+      mysql_user:
+        login_user:     "{{ dovecot.backend.login.username }}"
+        login_password: "{{ dovecot.backend.login.password }}"
+        login_host:     "localhost"
+        name:           "{{ dovecot.backend.username }}"
+        password:       "{{ dovecot.backend.password }}"
+        priv:           "{{ dovecot.backend.grants }}"
+        state:          "present"
+  when: dovecot.backend.engine == "MySQL"
+

@@ -1,0 +1,21 @@
+-- {{ dovecot.backend.database }}.{{ dovecot.backend.userlist }} table
+CREATE TABLE IF NOT EXISTS `{{ dovecot.backend.userlist }}` (
+    `id`         INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `userid`     VARCHAR(255) NOT NULL COMMENT 'Username for authentication',
+    `address`    VARCHAR(255) NOT NULL COMMENT 'Email address like kijitora@example.jp',
+    `localpart`  VARCHAR(255) NOT NULL COMMENT 'Local part of "address"',
+    `domainpart` VARCHAR(255) NOT NULL COMMENT 'Domain part of "address"',
+    `password`   VARCHAR(512) NOT NULL COMMENT 'Encrypted password',
+    `home`       VARCHAR(255) NOT NULL COMMENT 'Path to the home directory',
+    `uid`        INT(11) UNSIGNED NOT NULL,
+    `gid`        INT(11) UNSIGNED NOT NULL,
+    `note`       TEXT DEFAULT NULL,
+    `updated`    DATETIME DEFAULT NULL,
+    `created`    DATETIME DEFAULT NULL,
+    `disabled`  TINYINT(1) DEFAULT 0 NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE (`username`),
+    KEY `address0_index` (`address`),
+    KEY `address1_index` (`localpart`, `domainpart`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='{{ dovecot.backend.database }}.{{ dovecot.backend.userlist }}'
+

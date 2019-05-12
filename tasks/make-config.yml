@@ -1,0 +1,52 @@
+---
+#      _                          _    __      _       __     ___            _        
+#   __| | _____   _____  ___ ___ | |_ / /_ __ | | ____ \ \   / / |_ __ _ ___| | _____ 
+#  / _` |/ _ \ \ / / _ \/ __/ _ \| __| || '_ \| |/ / _` | | / /| __/ _` / __| |/ / __|
+# | (_| | (_) \ V /  __/ (_| (_) | |_| || |_) |   < (_| | |/ / | || (_| \__ \   <\__ \
+#  \__,_|\___/ \_/ \___|\___\___/ \__| || .__/|_|\_\__, | /_/   \__\__,_|___/_|\_\___/
+#                                     \_\_|        |___/_/                            
+# make-config
+- name: make-config | Sub directories in etc/dovecot should be created
+  file:
+    path:  "{{ dovecot.configroot }}/{{ item }}"
+    mode:  "0755"
+    owner: "root"
+    state: "directory"
+  with_items:
+    - "ssl"
+
+- name: make-config | etc/dovecot/dovecot.conf should be deployed
+  notify: Restart Dovecot
+  template:
+    src:   "etc/dovecot/dovecot.conf.j2"
+    dest:  "{{ dovecot.configroot }}/dovecot.conf"
+    mode:  "0644"
+    owner: "root"
+
+- name: make-config | Config files in etc/dovecot directory should be deployed
+  notify: Restart Dovecot
+  template:
+    src:  "{{ item }}"
+    dest: "{{ dovecot.configroot }}/{{ item | basename | replace('.j2', '') }}"
+    mode: "0644"
+  with_fileglob: "templates{{ dovecot.configroot }}/*.ext.j2"
+
+- name: make-config | Each config file in /etc/dovecot/conf.d should be deployed
+  notify: Restart Dovecot
+  template:
+    src:  "{{ item }}"
+    dest: "{{ dovecot.configroot }}/conf.d/{{ item | basename | replace('.j2', '') }}"
+    mode: "0644"
+  with_fileglob: "templates{{ dovecot.configroot }}/conf.d/*.j2"
+
+- name: make-config | map files in etc/dovecot should be deployed
+  notify: Restart Dovecot
+  template:
+    src:   "etc/dovecot/{{ item }}.j2"
+    dest:  "{{ dovecot.configroot }}/{{ item }}"
+    mode:  "0644"
+    owner: "root"
+  with_items:
+    - "disabled-users"
+    - "virtuser-passwd"
+

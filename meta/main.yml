@@ -1,0 +1,21 @@
+galaxy_info:
+  author: azumakuniyuki
+  description: Install dovecot 2.2 from a package
+  company: Cubicroot Co. Ltd.
+  issue_tracker_url: https://github.com/azumakuniyuki/ar-dovecot-pkg/issues
+  license: BSD
+  min_ansible_version: 2.0
+  platforms:
+  - name: EL
+    versions:
+    - 7
+    - 10.0
+    - 10.1
+    - 10.2
+    - 10.3
+  - name: Debian
+    versions:
+    - 9.8.0
+  galaxy_tags: ['dovecot', 'pop3', 'imap', 'mail']
+dependencies: []
+
