@@ -1,0 +1,39 @@
+---
+#      _                          _    __      _       __     ___            _        
+#   __| | _____   _____  ___ ___ | |_ / /_ __ | | ____ \ \   / / |_ __ _ ___| | _____ 
+#  / _` |/ _ \ \ / / _ \/ __/ _ \| __| || '_ \| |/ / _` | | / /| __/ _` / __| |/ / __|
+# | (_| | (_) \ V /  __/ (_| (_) | |_| || |_) |   < (_| | |/ / | || (_| \__ \   <\__ \
+#  \__,_|\___/ \_/ \___|\___\___/ \__| || .__/|_|\_\__, | /_/   \__\__,_|___/_|\_\___/
+#                                     \_\_|        |___/_/                            
+# create-user
+- name: create-user | Group for virtual mailbox should be created
+  group:
+    name:  "{{ dovecot.mailconfig.mailbox.group }}"
+    gid:   "{{ dovecot.mailconfig.mailbox.gid }}"
+    state: "present"
+
+- name: create-user | User for virtual mailbox should be created
+  user:
+    createhome: "yes"
+    comment:    "{{ dovecot.mailconfig.mailbox.comment }}"
+    name:  "{{ dovecot.mailconfig.mailbox.username }}"
+    uid:   "{{ dovecot.mailconfig.mailbox.uid }}"
+    group: "{{ dovecot.mailconfig.mailbox.group }}"
+    shell: "{{ dovecot.mailconfig.mailbox.shell }}"
+    home:  "{{ dovecot.mailconfig.mailbox.home }}"
+    state: "present"
+
+- name: create-user | dovecot should be included in virtmail group
+  user:
+    name:   "dovecot"
+    groups: "{{ dovecot.mailconfig.mailbox.group }}"
+    state:  "present"
+
+- name: create-user | mailbox directory should be readable from virtmail group
+  file:
+    path:  "{{ dovecot.mailconfig.mailbox.home }}"
+    owner: "{{ dovecot.mailconfig.mailbox.username }}"
+    group: "{{ dovecot.mailconfig.mailbox.group }}"
+    mode:  "0770"
+    state: "directory"
+

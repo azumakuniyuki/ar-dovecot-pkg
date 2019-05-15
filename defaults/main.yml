@@ -18,11 +18,9 @@ dovecot:
     pgsql: false
   mailconfig:
     hostname: "mail.example.jp"
-  user:
     mailbox:
       # Values should be same as the following roles
-      # - sendmail.user.mda
-      # - opensmtpd.user.mailbox
+      # - ar-postfix-pkg.mailconfig.mailbox
       username: "virtmail"
       group: "virtmail"
       uid: "660"
