@@ -16,6 +16,7 @@
   user:
     createhome: "yes"
     comment:    "{{ dovecot.mailconfig.mailbox.comment }}"
+    password:   "{{ dovecot.mailconfig.mailbox.password }}"
     name:  "{{ dovecot.mailconfig.mailbox.username }}"
     uid:   "{{ dovecot.mailconfig.mailbox.uid }}"
     group: "{{ dovecot.mailconfig.mailbox.group }}"

@@ -22,6 +22,7 @@ dovecot:
       # Values should be same as the following roles
       # - ar-postfix-pkg.mailconfig.mailbox
       username: "virtmail"
+      password: null
       group: "virtmail"
       uid: "660"
       gid: "660"
