@@ -10,16 +10,16 @@
 
 #passdb {
 #  driver = static
-#  args = proxy=y host=%1Mu.example.com nopassword=y
+#  args   = proxy=y host=%1Mu.example.com nopassword=y
 #}
 
 #passdb {
 #  driver = static
-#  args = password=test
+#  args   = password=test
 #}
 
 #userdb {
 #  driver = static
-#  args = uid=vmail gid=vmail home=/home/%u
+#  args   = uid={{ dovecot.mailconfig.mailbox.username }} gid={{ dovecot.mailconfig.mailbox.group }} home=/home/%u
 #}
 

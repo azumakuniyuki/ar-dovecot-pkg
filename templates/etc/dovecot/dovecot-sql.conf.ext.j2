@@ -107,7 +107,7 @@ default_pass_scheme = SHA512-CRYPT
 password_query = \
   SELECT localpart AS username, domainpart AS domain, password \
   FROM {{ dovecot.backend.userlist }} \
-  WHERE localpart = '%n' AND domainpart = '%d'
+  WHERE localpart = '%n' AND domainpart = '%d' AND disabled = 0
 
 # userdb query to retrieve the user information. It can return fields:
 #   uid - System UID (overrides mail_uid setting)
@@ -128,7 +128,7 @@ password_query = \
 user_query = \
   SELECT home, uid, gid \
   FROM {{ dovecot.backend.userlist }} \
-  WHERE localpart = '%n' AND domainpart = '%d'
+  WHERE localpart = '%n' AND domainpart = '%d' AND disabled = 0
 
 # If you wish to avoid two SQL lookups (passdb + userdb), you can use
 # userdb prefetch instead of userdb sql in dovecot.conf. In that case you'll

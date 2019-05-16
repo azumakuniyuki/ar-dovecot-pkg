@@ -18,7 +18,7 @@ passdb {
 
 userdb {
   driver = sql
-  args = /etc/dovecot/dovecot-sql.conf.ext
+  args   = /etc/dovecot/dovecot-sql.conf.ext
 }
 
 # If you don't have any user-specific settings, you can avoid the user_query
@@ -26,6 +26,6 @@ userdb {
 # <doc/wiki/UserDatabase.Static.txt>
 #userdb {
   #driver = static
-  #args = uid=vmail gid=vmail home=/var/vmail/%u
+  #args   = uid={{ dovecot.mailconfig.mailbox.username }} gid={{ dovecot.mailconfig.mailbox.group }} home={{ dovecot.mailconfig.mailbox.home }}/%u
 #}
 

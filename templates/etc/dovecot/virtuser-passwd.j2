@@ -8,16 +8,16 @@
 # 
 # passdb {
 #   driver = passwd-file
-#   args = {{ dovecot.serverroot }}/etc/virtuser-passwd
+#   args   = {{ dovecot.configroot }}/virtuser-passwd
 # }
 #
 # userdb {
 #   driver = passwd-file
-#   args = {{ dovecot.serverroot }}/etc/virtuser-passwd
+#   args   = {{ dovecot.configroot }}/virtuser-passwd
 # }
 #
 # user:password:uid:gid:(gecos):home:(shell):extra_fields
-#shironeko@example.jp:<password here>:{{ dovecot.user.mailbox.username }}:{{ dovecot.user.mailbox.group }}::{{ dovecot.user.mailbox.home }}/example.jp/shironeko::
-#kijitora@example.jp:<password here>:{{ dovecot.user.mailbox.username }}:{{ dovecot.user.mailbox.group }}::{{ dovecot.user.mailbox.home }}/example.jp/kijitora::
-#tobimike@example.jp:<password here>:{{ dovecot.user.mailbox.username }}:{{ dovecot.user.mailbox.group }}::{{ dovecot.user.mailbox.home }}/example.jp/tobimike::
+#shironeko@example.jp:<password here>:{{ dovecot.mailconfig.mailbox.username }}:{{ dovecot.mailconfig.mailbox.group }}::{{ dovecot.mailconfig.mailbox.home }}/example.jp/shironeko::
+#kijitora@example.jp:<password here>:{{ dovecot.mailconfig.mailbox.username }}:{{ dovecot.mailconfig.mailbox.group }}::{{ dovecot.mailconfig.mailbox.home }}/example.jp/kijitora::
+#tobimike@example.jp:<password here>:{{ dovecot.mailconfig.mailbox.username }}:{{ dovecot.mailconfig.mailbox.group }}::{{ dovecot.mailconfig.mailbox.home }}/example.jp/tobimike::
 #

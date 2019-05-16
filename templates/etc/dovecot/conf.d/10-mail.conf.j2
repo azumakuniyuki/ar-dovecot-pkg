@@ -27,7 +27,7 @@
 #
 # <doc/wiki/MailLocation.txt>
 #
-mail_location = maildir:~/Maildir
+mail_location = maildir:{{ dovecot.mailconfig.mailbox.home }}/%d/%n
 
 # If you need to set multiple mailbox locations or want to change default
 # namespace settings, you can do it by defining namespace sections.
@@ -105,13 +105,13 @@ namespace inbox {
 # System user and group used to access mails. If you use multiple, userdb
 # can override these by returning uid or gid fields. You can use either numbers
 # or names. <doc/wiki/UserIds.txt>
-#mail_uid =
-#mail_gid =
+mail_uid = {{ dovecot.mailconfig.mailbox.uid }}
+mail_gid = {{ dovecot.mailconfig.mailbox.gid }}
 
 # Group to enable temporarily for privileged operations. Currently this is
 # used only with INBOX when either its initial creation or dotlocking fails.
 # Typically this is set to "mail" to give access to /var/mail.
-#mail_privileged_group =
+mail_privileged_group = {{ dovecot.mailconfig.mailbox.group }}
 
 # Grant access to these supplementary groups for mail processes. Typically
 # these are used to set up access to shared mailboxes. Note that it may be
