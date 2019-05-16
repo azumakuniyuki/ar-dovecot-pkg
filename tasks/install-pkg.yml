@@ -19,7 +19,7 @@
         - "procmail"
 
     - name: install-pkg | RedHat | MySQL for Dovecot should be installed
-      when: dovecot.backendfor.mysql == true
+      when: dovecot.backend.engine == "MySQL"
       yum:
         name:  "{{ item }}"
         state: "present"
@@ -27,7 +27,7 @@
         - "dovecot-mysql"
 
     - name: install-pkg | RedHat | PostgreSQL for Dovecot should be installed
-      when: dovecot.backendfor.pgsql == true
+      when: dovecot.backend.engine == "PostgreSQL"
       yum:
         name:  "{{ item }}"
         state: "present"
@@ -51,7 +51,7 @@
         - "procmail"
 
     - name: install-pkg | Debian | MySQL for Dovecot should be installed
-      when: dovecot.backendfor.mysql == true
+      when: dovecot.backend.engine == "MySQL"
       apt:
         name:  "{{ item }}"
         state: "present"
@@ -59,7 +59,7 @@
         - "dovecot-mysql"
 
     - name: install-pkg | Debian | PostgreSQL for Dovecot should be installed
-      when: dovecot.backendfor.pgsql == true
+      when: dovecot.backend.engine == "PostgreSQL"
       apt:
         name:  "{{ item }}"
         state: "present"
