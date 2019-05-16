@@ -13,14 +13,11 @@ dovecot:
   configroot: "/etc/dovecot"
   loggingfor: "/var/log"
   tlscertdir: "/etc/letsencrypt/live"
-  backendfor:
-    mysql: false
-    pgsql: false
   mailconfig:
     hostname: "mail.example.jp"
     mailbox:
       # Values should be same as the following roles
-      # - ar-postfix-pkg.mailconfig.mailbox
+      # - ar-postfix-pkg.postfix.mailconfig.mailbox
       username: "virtmail"
       password: null
       group: "virtmail"
