@@ -47,7 +47,7 @@
         - "dovecot-lmtpd"
         - "dovecot-dev"
         - "mb2md"
-        - "mailx"
+        - "bsd-mailx"
         - "procmail"
 
     - name: install-pkg | Debian | MySQL for Dovecot should be installed
