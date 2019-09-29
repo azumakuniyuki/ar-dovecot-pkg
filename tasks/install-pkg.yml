@@ -9,30 +9,27 @@
 - block:
     - name: install-pkg | RedHat | Dovecot and email related packages should be installed
       yum:
-        name:  "{{ item }}"
         state: "present"
-      with_items:
-        - "dovecot"
-        - "dovecot-devel"
-        - "mb2md"
-        - "mailx"
-        - "procmail"
+        name:  "{{ item }}"
+          - "dovecot"
+          - "dovecot-devel"
+          - "mb2md"
+          - "mailx"
+          - "procmail"
 
     - name: install-pkg | RedHat | MySQL for Dovecot should be installed
       when: dovecot.backend.engine == "MySQL"
       yum:
-        name:  "{{ item }}"
         state: "present"
-      with_items:
-        - "dovecot-mysql"
+        name:  "{{ item }}"
+          - "dovecot-mysql"
 
     - name: install-pkg | RedHat | PostgreSQL for Dovecot should be installed
       when: dovecot.backend.engine == "PostgreSQL"
       yum:
-        name:  "{{ item }}"
         state: "present"
-      with_items:
-        - "dovecot-pgsql"
+        name:  "{{ item }}"
+          - "dovecot-pgsql"
   when: ansible_os_family == "RedHat"
 
 - block:
