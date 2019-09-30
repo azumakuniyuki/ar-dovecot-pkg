@@ -35,32 +35,29 @@
 - block:
     - name: install-pkg | Debian | Dovecot and email related packages should be installed
       apt:
-        name:  "{{ item }}"
         state: "present"
-      with_items:
-        - "dovecot-core"
-        - "dovecot-pop3d"
-        - "dovecot-imapd"
-        - "dovecot-lmtpd"
-        - "dovecot-dev"
-        - "mb2md"
-        - "bsd-mailx"
-        - "procmail"
+        name:
+          - "dovecot-core"
+          - "dovecot-pop3d"
+          - "dovecot-imapd"
+          - "dovecot-lmtpd"
+          - "dovecot-dev"
+          - "mb2md"
+          - "bsd-mailx"
+          - "procmail"
 
     - name: install-pkg | Debian | MySQL for Dovecot should be installed
       when: dovecot.backend.engine == "MySQL"
       apt:
-        name:  "{{ item }}"
         state: "present"
-      with_items:
-        - "dovecot-mysql"
+        name:
+          - "dovecot-mysql"
 
     - name: install-pkg | Debian | PostgreSQL for Dovecot should be installed
       when: dovecot.backend.engine == "PostgreSQL"
       apt:
-        name:  "{{ item }}"
         state: "present"
-      with_items:
-        - "dovecot-pgsql"
+        name:
+          - "dovecot-pgsql"
   when: ansible_os_family == "Debian"
 
