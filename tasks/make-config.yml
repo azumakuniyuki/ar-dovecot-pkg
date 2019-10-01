@@ -22,6 +22,7 @@
     state: "directory"
   with_items:
     - "ssl"
+    - "sql"
 
 - name: make-config | etc/dovecot/dovecot.conf should be deployed
   notify: Restart Dovecot
@@ -57,4 +58,11 @@
   with_items:
     - "disabled-users"
     - "virtuser-passwd"
+
+- name: make-config | Each file in /etc/cron.d should be deployed
+  template:
+    src:  "{{ item }}"
+    dest: "/etc/cron.d/{{ item | basename | replace('.j2', '') }}"
+    mode: "0644"
+  with_fileglob: "templates/etc/cron.d/*.j2"
 
