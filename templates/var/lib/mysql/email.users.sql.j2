@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS `{{ dovecot.backend.userlist }}` (
     `created`    DATETIME DEFAULT NULL,
     `disabled`  TINYINT(1) DEFAULT 0 NOT NULL,
     PRIMARY KEY (`id`),
-    UNIQUE (`username`),
+    UNIQUE (`userid`),
     KEY `address0_index` (`address`),
     KEY `address1_index` (`localpart`, `domainpart`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='{{ dovecot.backend.database }}.{{ dovecot.backend.userlist }}'
