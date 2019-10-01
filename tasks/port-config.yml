@@ -8,9 +8,10 @@
 # port-config
 - name: port-config | /usr/bin/firewall-cmd exists or not
   register: firewallcmd
-  failed_when: firewallcmd.rc < 0
-  changed_when: firewallcmd.rc > 1
-  command: which firewall-cmd > /dev/null
+  ignore_errors: true
+  failed_when: firewallcmd.rc == 1
+  changed_when: false
+  command: which firewall-cmd > /dev/null 2>&1
 
 - name: port-config | Each email related port should be opened
   when: firewallcmd.rc == 0
