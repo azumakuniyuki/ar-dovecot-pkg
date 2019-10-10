@@ -2,8 +2,8 @@
 # $Id: make-vmailbox.SH,v 1.12.2.1 2011/03/19 09:41:17 ak Exp $
 export LANG=C
 export PATH="/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin"
-VIRTMAILUSER="{{ dovecot.mailconfig.mailbox.username }}"
-VIRTMAILHOME="{{ dovecot.mailconfig.mailbox.home }}"
+VIRTMAILUSER="{{ postfix.mailconfig.mailbox.username }}"
+VIRTMAILHOME="{{ postfix.mailconfig.mailbox.home }}"
 NEWMAILADDRS="$@"
 
 if [ -n "$NEWMAILADDRS" ]; then
@@ -15,11 +15,11 @@ if [ -n "$NEWMAILADDRS" ]; then
         dpart="`echo $E | cut -d@ -f2`"
 
         if [ -n "$lpart" -a -n "$dpart" ]; then
-            if [ ! -d "$VIRTMAILHOME/$dpart/$lpart/Maildir" ]; then
-                su - $VIRTMAILUSER -c "mkdir -pm 0700 $VIRTMAILHOME/$dpart/$lpart/Maildir/cur"
-                su - $VIRTMAILUSER -c "mkdir -pm 0700 $VIRTMAILHOME/$dpart/$lpart/Maildir/new"
-                su - $VIRTMAILUSER -c "mkdir -pm 0700 $VIRTMAILHOME/$dpart/$lpart/Maildir/tmp"
-                echo "$E => $VIRTMAILHOME/$dpart/$lpart/Maildir"
+            if [ ! -d "$VIRTMAILHOME/$dpart/$lpart" ]; then
+                su - $VIRTMAILUSER -c "mkdir -pm 0700 $VIRTMAILHOME/$dpart/$lpart/cur"
+                su - $VIRTMAILUSER -c "mkdir -pm 0700 $VIRTMAILHOME/$dpart/$lpart/new"
+                su - $VIRTMAILUSER -c "mkdir -pm 0700 $VIRTMAILHOME/$dpart/$lpart/tmp"
+                echo "$E => $VIRTMAILHOME/$dpart/$lpart"
             fi
         else
             echo "'$E' does not seem to email address"
@@ -32,3 +32,4 @@ else
     echo "Example: $0 neko@nyaan.jp kijitora@libsisimai.org"
     exit 1;
 fi
+
