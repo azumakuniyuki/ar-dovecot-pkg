@@ -5,7 +5,7 @@
 #uri =
 
 # Default password scheme
-default_pass_scheme = MD5
+default_pass_scheme = SHA512-CRYPT
 
 # Username iteration prefix. Keys under this are assumed to contain usernames.
 iterate_prefix = userdb/
@@ -22,17 +22,19 @@ key passdb {
   key = passdb/%u
   format = json
 }
+
 key userdb {
   key = userdb/%u
   format = json
 }
+
 key quota {
   key = userdb/%u/quota
   #format = value
   # The default_value is used if the key isn't found. If default_value setting
   # isn't specified at all (even as empty), the passdb/userdb lookup fails with
   # "user doesn't exist".
-  default_value = 100M
+  default_value = 1024M
 }
 
 # Space separated list of keys whose values contain key/value paired objects.
