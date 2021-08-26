@@ -2,8 +2,8 @@
 # $Id: make-vmailbox.SH,v 1.12.2.1 2011/03/19 09:41:17 ak Exp $
 export LANG=C
 export PATH="/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin"
-VIRTMAILUSER="{{ postfix.mailconfig.mailbox.username }}"
-VIRTMAILHOME="{{ postfix.mailconfig.mailbox.home }}"
+VIRTMAILUSER="{{ dovecot.mailconfig.mailbox.username }}"
+VIRTMAILHOME="{{ dovecot.mailconfig.mailbox.home }}"
 NEWMAILADDRS="$@"
 
 if [ -n "$NEWMAILADDRS" ]; then
