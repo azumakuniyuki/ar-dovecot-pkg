@@ -54,11 +54,11 @@ service lmtp {
     #mode = 0666
   }
 
-  #unix_listener /var/spool/postfix/private/dovecot-lmtp {
-  #  mode  = 0666
-  #  user  = postfix
-  #  group = postfix
-  #}
+  unix_listener /var/spool/postfix/private/dovecot-lmtp {
+    mode  = 0666
+    user  = postfix
+    group = postfix
+  }
 
   # Create inet listener only if you can't use the above UNIX socket
   #inet_listener lmtp {
@@ -103,11 +103,11 @@ service auth {
   }
 
   # Postfix smtp-auth
-  #unix_listener /var/spool/postfix/private/auth {
-  #  mode  = 0666
-  #  user  = postfix
-  #  group = postfix
-  #}
+  unix_listener /var/spool/postfix/private/auth {
+    mode  = 0666
+    user  = postfix
+    group = postfix
+  }
 
   # Auth process is run as this user.
   user = $default_internal_user
