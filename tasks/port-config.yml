@@ -6,37 +6,49 @@
 #  \__,_|\___/ \_/ \___|\___\___/ \__| |___/_|  \___| /_/   \__\__,_|___/_|\_\___/
 #                                     \_\          /_/                            
 # port-config
-- name: port-config | /usr/bin/firewall-cmd exists or not
-  register: firewallcmd
-  ignore_errors: true
-  failed_when: firewallcmd.rc == 1
-  changed_when: false
-  command: which firewall-cmd > /dev/null 2>&1
+- block:
+  - name: port-config | /usr/bin/firewall-cmd exists or not
+    register: firewallcmd
+    ignore_errors: true
+    failed_when: firewallcmd.rc == 1
+    changed_when: false
+    command: which firewall-cmd > /dev/null 2>&1
 
-- name: port-config | Each email related port should be opened
-  when: firewallcmd.rc == 0
-  firewalld:
-    service:   "{{ item }}"
-    state:     "enabled"
-    immediate: true
-    permanent: true
-  with_items: ["pop3", "imap", "pop3s", "imaps"]
+  - name: port-config | Each email related port should be opened
+    when: firewallcmd.rc == 0
+    firewalld:
+      service:   "{{ item }}"
+      state:     "enabled"
+      immediate: true
+      permanent: true
+    with_items: ["pop3", "imap", "pop3s", "imaps"]
+
+  - name: port-config | Linux | Each email related port should be opened
+    when: firewallcmd.rc == 1
+    iptables:
+      comment:     "open {{ item }}"
+      chain:       "INPUT"
+      source:      "0.0.0.0"
+      destination: "{{ ansible_default_ipv4.address }}"
+      destination_port: "{{ item }}"
+      protocol:    "tcp"
+      jump:        "ACCEPT"
+    with_items:
+      - "110"
+      - "143"
+      - "993"
+      - "995"
+  when: ansible_os_family == "RedHat" 
 
 - block:
-    - name: port-config | Linux | Each email related port should be opened
-      when: firewallcmd.rc == 1
-      iptables:
-        comment:     "open {{ item }}"
-        chain:       "INPUT"
-        source:      "0.0.0.0"
-        destination: "{{ ansible_default_ipv4.address }}"
-        destination_port: "{{ item }}"
-        protocol:    "tcp"
-        jump:        "ACCEPT"
-      with_items:
-        - "110"
-        - "143"
-        - "993"
-        - "995"
-  when: ansible_system == "Linux"
+  - name: port-config | Debian | Allow 110, 143, 993, and 995 for dovecot
+    ufw:
+      rule: "allow"
+      name: "{{ item }}"
+    with_items:
+      - "Dovecot POP3"
+      - "Dovecot Secure POP3"
+      - "Dovecot IMAP"
+      - "Dovecot Secure IMAP"
+  when: ansible_os_family == "Debian" 
 
