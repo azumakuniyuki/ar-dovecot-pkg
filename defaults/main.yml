@@ -26,6 +26,10 @@ dovecot:
       home: "/home/virtmail"
       shell: "/bin/sh"
       comment: "'Virtual Mailbox'"
+      root: "/home/virtmail/mbox"
+      conf: "/home/virtmail/conf"
+      logs: "/home/virtmail/logs"
+      sbin: "/home/virtmail/sbin"
   backend:
     enabled: false
     engine:  "MySQL"

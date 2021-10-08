@@ -30,11 +30,16 @@
     groups: "{{ dovecot.mailconfig.mailbox.group }}"
     state:  "present"
 
-- name: create-user | mailbox directory should be readable from virtmail group
+- name: create-user | Sub directories should be created at the virtmail home
   file:
-    path:  "{{ dovecot.mailconfig.mailbox.home }}"
+    path:  "{{ item }}"
     owner: "{{ dovecot.mailconfig.mailbox.username }}"
     group: "{{ dovecot.mailconfig.mailbox.group }}"
     mode:  "0770"
     state: "directory"
+  with_items:
+    - "{{ dovecot.mailconfig.mailbox.root }}"
+    - "{{ dovecot.mailconfig.mailbox.conf }}"
+    - "{{ dovecot.mailconfig.mailbox.logs }}"
+    - "{{ dovecot.mailconfig.mailbox.sbin }}"
 

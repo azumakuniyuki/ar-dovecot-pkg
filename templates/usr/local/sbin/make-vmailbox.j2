@@ -2,9 +2,16 @@
 # $Id: make-vmailbox.SH,v 1.12.2.1 2011/03/19 09:41:17 ak Exp $
 export LANG=C
 export PATH="/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin"
+
 VIRTMAILUSER="{{ dovecot.mailconfig.mailbox.username }}"
-VIRTMAILHOME="{{ dovecot.mailconfig.mailbox.home }}"
+VIRTMAILHOME="{{ dovecot.mailconfig.mailbox.root }}"
 NEWMAILADDRS="$@"
+DOASVIRTMAIL=""
+INTERNALDIRS="cur new tmp etc"
+
+if [ $USER != "{{ dovecot.mailconfig.mailbox.username }}" ]; then
+    DOASVIRTMAIL="sudo -u {{ dovecot.mailconfig.mailbox.username }} "
+fi
 
 if [ -n "$NEWMAILADDRS" ]; then
     test -d $VIRTMAILHOME || \
@@ -16,9 +23,10 @@ if [ -n "$NEWMAILADDRS" ]; then
 
         if [ -n "$lpart" -a -n "$dpart" ]; then
             if [ ! -d "$VIRTMAILHOME/$dpart/$lpart" ]; then
-                su - $VIRTMAILUSER -c "mkdir -pm 0700 $VIRTMAILHOME/$dpart/$lpart/cur"
-                su - $VIRTMAILUSER -c "mkdir -pm 0700 $VIRTMAILHOME/$dpart/$lpart/new"
-                su - $VIRTMAILUSER -c "mkdir -pm 0700 $VIRTMAILHOME/$dpart/$lpart/tmp"
+                for v in $INTERNALDIRS; do
+                    $DOASVIRTMAIL mkdir -pm 0700 $VIRTMAILHOME/$dpart/$lpart/$v
+                done
+                $DOASVIRTMAIL touch $VIRTMAILHOME/$dpart/$lpart/etc/procmailrc
                 echo "$E => $VIRTMAILHOME/$dpart/$lpart"
             fi
         else
@@ -32,4 +40,3 @@ else
     echo "Example: $0 neko@nyaan.jp kijitora@libsisimai.org"
     exit 1;
 fi
-
