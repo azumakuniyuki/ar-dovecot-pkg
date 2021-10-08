@@ -41,7 +41,7 @@ dovecot:
     # mysql> SHOW CREATE DATABASE `dbname`;
     database: "email"
     encoding: "utf8"
-    userlist: "users"
+    userlist: "mailbox"
     # mysql> SHOW GRANTS FOR `username`@`hostname`
     username: "postmaster"
     password: null

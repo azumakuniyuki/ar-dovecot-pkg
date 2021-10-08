@@ -104,10 +104,7 @@ default_pass_scheme = SHA512-CRYPT
 #   password_query = SELECT userid AS user, pw AS password \
 #     FROM users WHERE userid = '%u' AND active = 'Y'
 #
-password_query = \
-  SELECT localpart AS username, domainpart AS domain, password \
-  FROM {{ dovecot.backend.userlist }} \
-  WHERE localpart = '%n' AND domainpart = '%d' AND disabled = 0
+password_query = SELECT password FROM {{ dovecot.backend.userlist }} WHERE username = '%u' AND active = '1'
 
 # userdb query to retrieve the user information. It can return fields:
 #   uid - System UID (overrides mail_uid setting)
@@ -125,10 +122,8 @@ password_query = \
 #   user_query = SELECT dir AS home, user AS uid, group AS gid FROM users where userid = '%u'
 #   user_query = SELECT home, 501 AS uid, 501 AS gid FROM users WHERE userid = '%u'
 #
-user_query = \
-  SELECT home, uid, gid \
-  FROM {{ dovecot.backend.userlist }} \
-  WHERE localpart = '%n' AND domainpart = '%d' AND disabled = 0
+user_query = SELECT maildir, 660 AS uid, 660 AS gid, CONCAT('*:bytes=', quota) AS quota_rule \
+    FROM mailbox WHERE username = '%u' AND active = '1'
 
 # If you wish to avoid two SQL lookups (passdb + userdb), you can use
 # userdb prefetch instead of userdb sql in dovecot.conf. In that case you'll
@@ -140,5 +135,5 @@ user_query = \
 #  FROM {{ dovecot.backend.userlist }} WHERE userid = '%u'
 
 # Query to get a list of all usernames.
-#iterate_query = SELECT username AS user FROM {{ dovecot.backend.userlist }}
+iterate_query = SELECT username AS user FROM {{ dovecot.backend.userlist }}
 
