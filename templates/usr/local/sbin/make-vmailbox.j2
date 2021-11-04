@@ -7,7 +7,7 @@ VIRTMAILUSER="{{ dovecot.mailconfig.mailbox.username }}"
 VIRTMAILHOME="{{ dovecot.mailconfig.mailbox.root }}"
 NEWMAILADDRS="$@"
 DOASVIRTMAIL=""
-INTERNALDIRS="cur new tmp etc"
+INTERNALDIRS="cur new tmp etc log"
 
 if [ $USER != "{{ dovecot.mailconfig.mailbox.username }}" ]; then
     DOASVIRTMAIL="sudo -u {{ dovecot.mailconfig.mailbox.username }} "
